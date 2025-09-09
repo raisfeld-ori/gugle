@@ -1,9 +1,10 @@
 use gurt::{GurtResponse, Result};
+use sqlite::Connection;
 
-pub fn get() -> Result<GurtResponse> {
-    Ok(GurtResponse::ok().with_string_body(String::from("User list")))
+pub fn get(body: string) -> Result<GurtResponse> {
+    Ok(GurtResponse::ok().with_string_body(""))
 }
 
-pub fn post() -> Result<GurtResponse> {
+pub fn post(body: string) -> Result<GurtResponse> {
     Ok(GurtResponse::ok().with_string_body(String::from("User created")))
 }
