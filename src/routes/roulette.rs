@@ -3,7 +3,7 @@ use std::fs;
 use std::path::Path;
 
 pub fn get() -> Result<GurtResponse> {
-    let html_path = Path::new("src/routes/frontend/roulette.html");
+    let html_path = Path::new("src/routes/frontend/roulette.gurt");
     let html_content = fs::read_to_string(html_path);
     if html_content.is_err() {
         return Ok(
