@@ -121,8 +121,6 @@
             <!-- Menu Navigation -->
             <div style="flex items-center">
                 <a href="/" style="text-[#888888] cursor-pointer mx-4 hover:text-white">Home</a>
-                <span style="text-white cursor-pointer mx-4 hover:text-[#7c3aed]">Gambling</span>
-                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white">Gurt</span>
             </div>
             
             <!-- Gurt Wallet (Far Right) -->

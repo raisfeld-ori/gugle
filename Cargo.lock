@@ -297,6 +297,7 @@ name = "gugle"
 version = "0.1.0"
 dependencies = [
  "gurt",
+ "serde",
  "serde_json",
  "sqlite",
  "tokio",

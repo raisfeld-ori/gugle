@@ -44,36 +44,36 @@
             <!-- Title -->
             <div style="text-center mb-6">
                 <h1 style="text-2xl font-bold mb-2">Login</h1>
-                <p style="text-[#888888] text-sm">Welcome back</p>
+                <p style="text-[#888888] text-sm">This will make an account if you don't have one (and no one has this username)</p>
             </div>
 
             <!-- Form -->
-            <form style="flex flex-col gap-4">
+            <div id="loginForm" style="flex flex-col gap-4">
                 <div>
                     <input 
-                        type="email" 
-                        placeholder="Email" 
-                        required
-                        style="w-full bg-[#1a1a1a] border border-[#333333] rounded-lg px-3 py-3 text-white text-sm"
+                        id="nameInput"
+                        type="text" 
+                        placeholder="Username" 
+                        style="w-full bg-[#2a2a2a] border-2 border-[#555555] rounded-lg px-3 py-3 text-white text-sm focus:border-[#7c3aed] focus:bg-[#333333]"
                     />
                 </div>
                 
                 <div>
                     <input 
+                        id="passwordInput"
                         type="password" 
                         placeholder="Password" 
-                        required
-                        style="w-full bg-[#1a1a1a] border border-[#333333] rounded-lg px-3 py-3 text-white text-sm"
+                        style="w-full bg-[#2a2a2a] border-2 border-[#555555] rounded-lg px-3 py-3 text-white text-sm focus:border-[#7c3aed] focus:bg-[#333333]"
                     />
                 </div>
                 
                 <button 
-                    type="submit" 
+                    id="submitButton"
                     style="w-full bg-[#7c3aed] hover:bg-[#8b5cf6] text-white font-bold py-3 rounded-lg mt-2"
                 >
                     Sign In
                 </button>
-            </form>
+            </div>
             
             <!-- Back Link -->
             <div style="text-center mt-6">
