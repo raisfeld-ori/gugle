@@ -15,13 +15,17 @@ async fn main() -> Result<()> {
     let server = GurtServer::with_tls_certificates("cert.pem", "key.pem")?
         .get("/", |_ctx| async { routes::index::get() })
         .get("/slots", |_ctx| async { routes::slots::get() })
-        .get("/users", |_ctx| async {
+        .get("/users", |_ctx| {
             let user_data = _ctx.request.text().unwrap();
-            routes::users::get(user_data.clone())
+            async move {
+                routes::users::get(user_data.clone())
+            }
         })
-        .post("/users", |_ctx| async {
+        .post("/users", |_ctx| {
             let user_data = _ctx.request.text().unwrap();
-            routes::users::post(user_data.clone())
+            async move {
+                routes::users::post(user_data.clone())
+            }
         });
 
     println!("GURT server starting on gurt://127.0.0.1:4878");
