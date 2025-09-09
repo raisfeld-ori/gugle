@@ -11,6 +11,18 @@
     <style>
         body { font-inter }
     </style>
+    <script>
+    local balance = gurt.crumbs.get("balance")
+    if balance == nil then
+        gurt.crumbs.set({
+            name = "balance",
+            value = 100
+        })
+        balance = 100
+    end
+    local element = gurt.select('#wallet-balance')
+    element.text = balance
+    </script>
 </head>
 <body style="bg-[#0a0a0a] text-white m-0 p-0 font-inter">
     <!-- Top Navigation Bar -->
@@ -35,7 +47,7 @@
                         G
                     </div>
                     <!-- Balance -->
-                    <span style="text-white font-bold">1000</span>
+                    <span style="text-white font-bold" id="wallet-balance">test</span>
                     <!-- Add Button -->
                     <button style="w-6 h-6 bg-[#555555] text-white text-sm font-bold cursor-pointer hover:bg-[#666666] border-none">
                         +

@@ -17,10 +17,22 @@
             min-h-screen
         }
     </style>
+            <script>
+    local balance = gurt.crumbs.get("balance")
+    if balance == nil then
+        gurt.crumbs.set({
+            name = "balance",
+            value = 100
+        })
+        balance = 100
+    end
+    local element = gurt.select('#wallet-balance')
+    element.text = balance
+    </script>
     <script>
         -- Coinflip Game Logic
-        local headsCount = 0
-        local tailsCount = 0
+        local winsCount = 0
+        local loseCount = 0
         local totalFlips = 0
         local isFlipping = false
 
@@ -28,14 +40,14 @@
         local coin = gurt.select('#coin')
         local result = gurt.select('#result')
         local flipButton = gurt.select('#flipButton')
-        local headsDisplay = gurt.select('#headsCount')
-        local tailsDisplay = gurt.select('#tailsCount')
+        local winsDisplay = gurt.select('#winsCount')
+        local loseDisplay = gurt.select('#loseCount')
         local totalDisplay = gurt.select('#totalFlips')
 
         -- Function to update display
         local function updateDisplay()
-            headsDisplay.text = tostring(headsCount)
-            tailsDisplay.text = tostring(tailsCount)
+            winsDisplay.text = tostring(winsCount)
+            loseDisplay.text = tostring(loseCount)
             totalDisplay.text = tostring(totalFlips)
         end
 
@@ -54,15 +66,15 @@
             local spinInterval = setInterval(function()
                 spinCount = spinCount + 1
                 if spinCount % 2 == 0 then
-                    coin.text = "HEADS"
+                    coin.text = "WIN"
                     coin.style = "w-[300px] h-[300px] rounded-full bg-[#FFD700] border-4 border-[#FFA500] text-2xl font-bold text-[#8B4513] cursor-pointer mx-auto pt-[130px] text-center"
                 else
-                    coin.text = "TAILS"
+                    coin.text = "lose"
                     coin.style = "w-[300px] h-[300px] rounded-full bg-[#C0C0C0] border-4 border-[#A9A9A9] text-2xl font-bold text-[#2F4F4F] cursor-pointer mx-auto pt-[130px] text-center"
                 end
             end, 100)
             
-            -- Generate random result (0 = heads, 1 = tails)
+            -- Generate random result (0 = WIN, 1 = lose)
             local flipResult = math.random(0, 1)
             
             -- Stop spinning and show final result after 1 second
@@ -71,19 +83,35 @@
                 
                 -- Set final result
                 if flipResult == 0 then
-                    -- Heads
-                    coin.text = "HEADS"
+                    local balance = gurt.crumbs.get("balance")
+                    balance = balance + 50
+                    gurt.crumbs.set({
+                        name = "balance",
+                        value = balance
+                    })
+                    local element = gurt.select('#wallet-balance')
+                    element.text = balance
+                    -- WIN
+                    coin.text = "WIN"
                     coin.style = "w-[300px] h-[300px] rounded-full bg-[#FFD700] border-4 border-[#FFA500] text-2xl font-bold text-[#8B4513] cursor-pointer mx-auto pt-[130px] text-center"
-                    result.text = "🎉 HEADS WINS!"
+                    result.text = "🎉 WIN WIN!"
                     result.style = "text-3xl font-bold text-[#FFD700] mb-8 mx-auto text-center"
-                    headsCount = headsCount + 1
+                    winsCount = winsCount + 1
                 else
-                    -- Tails  
-                    coin.text = "TAILS"
+                    -- Lose 
+                    local balance = gurt.crumbs.get("balance")
+                    balance = balance - 50
+                    gurt.crumbs.set({
+                        name = "balance",
+                        value = balance
+                    })
+                    local element = gurt.select('#wallet-balance')
+                    element.text = balance
+                    coin.text = "LOSE"
                     coin.style = "w-[300px] h-[300px] rounded-full bg-[#C0C0C0] border-4 border-[#A9A9A9] text-2xl font-bold text-[#2F4F4F] cursor-pointer mx-auto pt-[130px] text-center"
-                    result.text = "🎉 TAILS WINS!"
+                    result.text = "🎉 lose WIN!"
                     result.style = "text-3xl font-bold text-[#C0C0C0] mb-8 mx-auto text-center"
-                    tailsCount = tailsCount + 1
+                    loseCount = loseCount + 1
                 end
                 
                 totalFlips = totalFlips + 1
@@ -92,7 +120,7 @@
                 flipButton.text = "Flip Again"
                 isFlipping = false
                 
-                trace.log("Coin flip result: " .. (flipResult == 0 and "Heads" or "Tails"))
+                trace.log("Coin flip result: " .. (flipResult == 0 and "Win" or "lose"))
             end, 1000)
         end
 
@@ -129,7 +157,7 @@
         <!-- GURT Wallet Balance -->
         <div style="flex items-center gap-3 bg-[#2a2a2a] px-4 py-2 rounded-lg border border-[#444444]">
             <span style="color-[#ffd700] text-lg font-bold">G</span>
-            <span style="color-white text-lg font-semibold">1000</span>
+            <span id="wallet-balance" style="color-white text-lg font-semibold"></span>
             <button style="bg-[#7c3aed] text-white px-3 py-1 rounded-md text-sm hover:bg-[#6d28d9] cursor-pointer border-none">+</button>
         </div>
     </nav>
@@ -139,7 +167,7 @@
         <div style="w-full max-w-4xl mx-auto text-center pt-16">
             <!-- Game Title -->
             <h1 style="text-6xl font-bold text-white mb-4 mx-auto">Coinflip</h1>
-            <p style="text-xl text-[#888888] mb-16 mx-auto">Click the coin or button to flip!</p>
+            <p style="text-xl text-[#888888] mb-16 mx-auto">Click the coin or button to flip! Each flip gives you 50 chips or losses 50 chips</p>
             
             <!-- Coin Container -->
             <div style="mb-16">
@@ -159,12 +187,12 @@
             <!-- Stats Grid -->
             <div style="max-w-3xl mx-auto mb-12 text-center overflow-hidden">
                 <div style="bg-[#1a1a1a] border border-[#333333] rounded-xl p-6 text-center m-2 w-[170px] float-left">
-                    <div style="text-3xl font-bold text-[#FFD700] mb-2" id="headsCount">0</div>
-                    <div style="text-[#888888] text-lg">Heads</div>
+                    <div style="text-3xl font-bold text-[#FFD700] mb-2" id="winsCount">0</div>
+                    <div style="text-[#888888] text-lg">WIN</div>
                 </div>
                 <div style="bg-[#1a1a1a] border border-[#333333] rounded-xl p-6 text-center m-2 w-[170px] float-left">
-                    <div style="text-3xl font-bold text-[#C0C0C0] mb-2" id="tailsCount">0</div>
-                    <div style="text-[#888888] text-lg">Tails</div>
+                    <div style="text-3xl font-bold text-[#C0C0C0] mb-2" id="loseCount">0</div>
+                    <div style="text-[#888888] text-lg">lose</div>
                 </div>
                 <div style="bg-[#1a1a1a] border border-[#333333] rounded-xl p-6 text-center m-2 w-[170px] float-left">
                     <div style="text-3xl font-bold text-white mb-2" id="totalFlips">0</div>
