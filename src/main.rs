@@ -15,6 +15,7 @@ async fn main() -> Result<()> {
     let server = GurtServer::with_tls_certificates("cert.pem", "key.pem")?
         .get("/", |_ctx| async { routes::index::get() })
         .get("/slots", |_ctx| async { routes::slots::get() })
+        .get("/login", |_ctx| async { routes::login::get() })
         .get("/users", |_ctx| {
             let user_data = _ctx.request.text().unwrap();
             async move {
