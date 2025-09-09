@@ -6,4 +6,4 @@ pub mod blackjack;
 pub mod roulette;
 pub mod poker;
 pub mod dice;
-pub mod baccarat;
+pub mod coinflip;

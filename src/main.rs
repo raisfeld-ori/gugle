@@ -20,7 +20,7 @@ async fn main() -> Result<()> {
         .get("/roulette", |_ctx| async { routes::roulette::get() })
         .get("/poker", |_ctx| async { routes::poker::get() })
         .get("/dice", |_ctx| async { routes::dice::get() })
-        .get("/baccarat", |_ctx| async { routes::baccarat::get() })
+        .get("/coinflip", |_ctx| async { routes::coinflip::get() })
         .get("/users", |_ctx| {
             let user_data = _ctx.request.text().unwrap();
             async move {
