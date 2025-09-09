@@ -23,17 +23,23 @@
             
             <!-- Menu Navigation -->
             <div style="flex items-center">
-                <span style="text-white cursor-pointer mx-4 hover:text-[#7c3aed]">Home</span>
-                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white">Gambling</span>
-                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white">Gurt</span>
+                <a href="/" style="text-white cursor-pointer mx-4 hover:text-[#7c3aed] text-decoration-none">Home</a>
+                <a href="/coinflip" style="text-[#888888] cursor-pointer mx-4 hover:text-white text-decoration-none">CoinFlip</a>
             </div>
             
-            <!-- Gurt Wallet (Far Right) -->
+            <!-- Gurt Wallet Balance (Far Right) -->
             <div style="flex items-center ml-8">
-                <div style="bg-[#1a1a1a] rounded-xl px-4 py-2 border border-[#333333] flex items-center">
-                    <a href="/login" style="text-white px-2 py-1 rounded text-sm font-bold cursor-pointer border border-[#6d28d9]">
-                        Login
-                    </a>
+                <div style="bg-[#2a2a2a] rounded-lg px-4 py-2 border border-[#444444] flex items-center gap-3">
+                    <!-- Coin Icon -->
+                    <div style="w-6 h-6 rounded-full bg-[#ffd700] border-2 border-[#ffed4e] text-[#8b4513] text-xs font-bold text-center">
+                        G
+                    </div>
+                    <!-- Balance -->
+                    <span style="text-white font-bold">1000</span>
+                    <!-- Add Button -->
+                    <button style="w-6 h-6 bg-[#555555] text-white text-sm font-bold cursor-pointer hover:bg-[#666666] border-none">
+                        +
+                    </button>
                 </div>
             </div>
         </div>

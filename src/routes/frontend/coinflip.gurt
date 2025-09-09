@@ -8,7 +8,14 @@
     <meta name="description" content="Coinflip game at 67 Casino">
     <font name="inter" src="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2" />
     <style>
-        body { font-inter }
+        body { 
+            font-inter 
+            bg-[#0a0a0a] 
+            text-white 
+            m-0 
+            p-0 
+            min-h-screen
+        }
     </style>
     <script>
         -- Coinflip Game Logic
@@ -24,10 +31,6 @@
         local headsDisplay = gurt.select('#headsCount')
         local tailsDisplay = gurt.select('#tailsCount')
         local totalDisplay = gurt.select('#totalFlips')
-
-        -- Coin styles
-        local headsStyle = "w-[200px] h-[200px] rounded-full cursor-pointer bg-gradient-to-br from-[#ffd700] to-[#ffed4e] flex items-center justify-center text-6xl font-bold text-[#8b4513] border-4 border-[#daa520]"
-        local tailsStyle = "w-[200px] h-[200px] rounded-full cursor-pointer bg-gradient-to-br from-[#c0c0c0] to-[#e5e7eb] flex items-center justify-center text-6xl font-bold text-[#374151] border-4 border-[#9ca3af]"
 
         -- Function to update display
         local function updateDisplay()
@@ -51,11 +54,11 @@
             local spinInterval = setInterval(function()
                 spinCount = spinCount + 1
                 if spinCount % 2 == 0 then
-                    coin.text = "H"
-                    coin.style = headsStyle
+                    coin.text = "HEADS"
+                    coin.style = "w-[300px] h-[300px] rounded-full bg-[#FFD700] border-4 border-[#FFA500] text-2xl font-bold text-[#8B4513] cursor-pointer mx-auto pt-[130px] text-center"
                 else
-                    coin.text = "T"
-                    coin.style = tailsStyle
+                    coin.text = "TAILS"
+                    coin.style = "w-[300px] h-[300px] rounded-full bg-[#C0C0C0] border-4 border-[#A9A9A9] text-2xl font-bold text-[#2F4F4F] cursor-pointer mx-auto pt-[130px] text-center"
                 end
             end, 100)
             
@@ -69,24 +72,24 @@
                 -- Set final result
                 if flipResult == 0 then
                     -- Heads
-                    coin.text = "H"
-                    coin.style = headsStyle
-                    result.text = "HEADS!"
-                    result.style = "text-2xl font-bold text-[#ffd700] mb-6"
+                    coin.text = "HEADS"
+                    coin.style = "w-[300px] h-[300px] rounded-full bg-[#FFD700] border-4 border-[#FFA500] text-2xl font-bold text-[#8B4513] cursor-pointer mx-auto pt-[130px] text-center"
+                    result.text = "🎉 HEADS WINS!"
+                    result.style = "text-3xl font-bold text-[#FFD700] mb-8 mx-auto text-center"
                     headsCount = headsCount + 1
                 else
                     -- Tails  
-                    coin.text = "T"
-                    coin.style = tailsStyle
-                    result.text = "TAILS!"
-                    result.style = "text-2xl font-bold text-[#c0c0c0] mb-6"
+                    coin.text = "TAILS"
+                    coin.style = "w-[300px] h-[300px] rounded-full bg-[#C0C0C0] border-4 border-[#A9A9A9] text-2xl font-bold text-[#2F4F4F] cursor-pointer mx-auto pt-[130px] text-center"
+                    result.text = "🎉 TAILS WINS!"
+                    result.style = "text-3xl font-bold text-[#C0C0C0] mb-8 mx-auto text-center"
                     tailsCount = tailsCount + 1
                 end
                 
                 totalFlips = totalFlips + 1
                 updateDisplay()
                 
-                flipButton.text = "Flip Coin"
+                flipButton.text = "Flip Again"
                 isFlipping = false
                 
                 trace.log("Coin flip result: " .. (flipResult == 0 and "Heads" or "Tails"))
@@ -106,75 +109,72 @@
         trace.log("Coinflip game initialized!")
     </script>
 </head>
-<body style="bg-[#0a0a0a] text-white m-0 p-0 font-inter min-h-screen">
-    <!-- Postprocess Effects for Casino Atmosphere -->
-    <postprocess preset="film" grain_amount="0.025" />
-    <postprocess preset="vignette" vignette_strength="0.7" vignette_color="#001122" />
+<body>
     <!-- Top Navigation Bar -->
-    <div style="bg-[#111111] p-4 border-b border-[#333333]">
-        <div style="flex justify-between items-center max-w-6xl mx-auto">
-            <!-- Casino Brand -->
-            <div style="flex items-center">
-                <a href="/" style="text-xl font-bold mr-8 text-white cursor-pointer">67 Casino</a>
+    <nav style="bg-[#1a1a1a] p-3 flex justify-between items-center rounded-lg mx-4 mt-4 border border-[#333333]">
+        <!-- Casino Logo -->
+        <div style="flex items-center gap-3">
+            <div style="w-8 h-8 bg-[#7c3aed] rounded-lg flex items-center justify-center">
+                <span style="text-white text-lg font-bold">67</span>
             </div>
-            
-            <!-- Menu Navigation -->
-            <div style="flex items-center">
-                <a href="/" style="text-[#888888] cursor-pointer mx-4 hover:text-white">Home</a>
-            </div>
-            
-            <!-- Gurt Wallet (Far Right) -->
-            <div style="flex items-center ml-8">
-                <div style="bg-[#1a1a1a] rounded-xl px-4 py-2 border border-[#333333] flex items-center">
-                    <a href="/login" style="text-white px-2 py-1 rounded text-sm font-bold cursor-pointer border border-[#6d28d9]">
-                        Login
-                    </a>
-                </div>
-            </div>
+            <span style="text-white text-xl font-bold">67 Casino</span>
         </div>
-    </div>
+        
+        <!-- Menu Navigation -->
+        <div style="flex items-center">
+            <a href="/" style="text-[#888888] cursor-pointer mx-4 hover:text-white text-decoration-none">Home</a>
+            <a href="/coinflip" style="text-white cursor-pointer mx-4 hover:text-[#7c3aed] text-decoration-none">CoinFlip</a>
+        </div>
+        
+        <!-- GURT Wallet Balance -->
+        <div style="flex items-center gap-3 bg-[#2a2a2a] px-4 py-2 rounded-lg border border-[#444444]">
+            <span style="color-[#ffd700] text-lg font-bold">G</span>
+            <span style="color-white text-lg font-semibold">1000</span>
+            <button style="bg-[#7c3aed] text-white px-3 py-1 rounded-md text-sm hover:bg-[#6d28d9] cursor-pointer border-none">+</button>
+        </div>
+    </nav>
 
-    <!-- Game Area -->
-    <div style="flex flex-col items-center justify-center min-h-[80vh] p-8">
-        <div style="max-w-2xl mx-auto text-center">
+    <!-- Centered Game Container -->
+    <div style="min-h-[calc(100vh-80px)] p-8">
+        <div style="w-full max-w-4xl mx-auto text-center pt-16">
             <!-- Game Title -->
-            <h1 style="text-4xl font-bold text-white mb-4">Coinflip</h1>
-            <p style="text-lg text-[#888888] mb-8">Click the coin to flip it!</p>
+            <h1 style="text-6xl font-bold text-white mb-4 mx-auto">Coinflip</h1>
+            <p style="text-xl text-[#888888] mb-16 mx-auto">Click the coin or button to flip!</p>
             
             <!-- Coin Container -->
-            <div style="flex justify-center mb-8">
-                <div id="coin" style="w-[200px] h-[200px] rounded-full cursor-pointer bg-gradient-to-br from-[#ffd700] to-[#ffed4e] flex items-center justify-center text-6xl font-bold text-[#8b4513] border-4 border-[#daa520]">
-                    H
+            <div style="mb-16">
+                <div id="coin" style="w-[300px] h-[300px] rounded-full bg-[#FFD700] border-4 border-[#FFA500] text-2xl font-bold text-[#8B4513] cursor-pointer mx-auto pt-[130px] text-center">
+                    GURT
                 </div>
             </div>
             
             <!-- Result Display -->
-            <div id="result" style="text-2xl font-bold text-white mb-6 min-h-8"></div>
+            <div id="result" style="text-3xl font-bold text-white mb-12 min-h-[3rem] mx-auto text-center"></div>
             
             <!-- Flip Button -->
-            <button id="flipButton" style="bg-[#7c3aed] text-white px-8 py-3 rounded-lg text-lg font-bold cursor-pointer hover:bg-[#8b5cf6] border-none">
+            <button id="flipButton" style="bg-[#7c3aed] text-white px-12 py-6 rounded-xl text-2xl font-bold cursor-pointer hover:bg-[#8b5cf6] border-none mb-16 mx-auto block">
                 Flip Coin
             </button>
             
-            <!-- Stats -->
-            <div style="mt-8 flex justify-center gap-8">
-                <div style="text-center">
-                    <div style="text-2xl font-bold text-white" id="headsCount">0</div>
-                    <div style="text-[#888888]">Heads</div>
+            <!-- Stats Grid -->
+            <div style="max-w-3xl mx-auto mb-12 text-center overflow-hidden">
+                <div style="bg-[#1a1a1a] border border-[#333333] rounded-xl p-6 text-center m-2 w-[170px] float-left">
+                    <div style="text-3xl font-bold text-[#FFD700] mb-2" id="headsCount">0</div>
+                    <div style="text-[#888888] text-lg">Heads</div>
                 </div>
-                <div style="text-center">
-                    <div style="text-2xl font-bold text-white" id="tailsCount">0</div>
-                    <div style="text-[#888888]">Tails</div>
+                <div style="bg-[#1a1a1a] border border-[#333333] rounded-xl p-6 text-center m-2 w-[170px] float-left">
+                    <div style="text-3xl font-bold text-[#C0C0C0] mb-2" id="tailsCount">0</div>
+                    <div style="text-[#888888] text-lg">Tails</div>
                 </div>
-                <div style="text-center">
-                    <div style="text-2xl font-bold text-white" id="totalFlips">0</div>
-                    <div style="text-[#888888]">Total Flips</div>
+                <div style="bg-[#1a1a1a] border border-[#333333] rounded-xl p-6 text-center m-2 w-[170px] float-left">
+                    <div style="text-3xl font-bold text-white mb-2" id="totalFlips">0</div>
+                    <div style="text-[#888888] text-lg">Total Flips</div>
                 </div>
             </div>
             
             <!-- Back to Games -->
-            <div style="mt-8">
-                <a href="/" style="text-[#7c3aed] hover:text-[#8b5cf6] cursor-pointer">← Back to Games</a>
+            <div style="text-center mx-auto">
+                <a href="/" style="text-[#7c3aed] hover:text-[#8b5cf6] cursor-pointer text-xl">← Back to Games</a>
             </div>
         </div>
     </div>
