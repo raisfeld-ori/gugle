@@ -1,0 +1,11 @@
+[package]
+name = "gugle"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+gurt = "0.1.0"
+serde_json = "1.0.143"
+tokio = "1.47.1"
+tracing = "0.1.41"
+tracing-subscriber = "0.3.20"
