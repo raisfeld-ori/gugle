@@ -1,9 +1,9 @@
-use gurt::{GurtResponse, Result, ServerContext};
+use gurt::{GurtResponse, Result};
 
 pub fn get() -> Result<GurtResponse> {
-    return Ok(GurtResponse::internal_server_error().with_string_body("500 Internal Server Error"));
-
+    Ok(GurtResponse::ok().with_string_body(String::from("User list")))
 }
-pub fn post() -> Result<GurtResponse>{
-    return Ok(GurtResponse::internal_server_error().with_string_body("500 Internal Server Error"));
+
+pub fn post() -> Result<GurtResponse> {
+    Ok(GurtResponse::ok().with_string_body(String::from("User created")))
 }
