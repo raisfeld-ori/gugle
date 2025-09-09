@@ -4,164 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - 67 Casino</title>
-    <meta name="theme-color" content="#6d28d9">
-    <meta name="description" content="67 Casino - Login to your account">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="description" content="Login to 67 Casino">
+    <font name="inter" src="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2" />
     <style>
-        body { 
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            color: white;
-            margin: 0;
-            padding: 0;
-        }
-        .nav-bar {
-            background-color: #111111;
-            padding: 16px;
-            border-bottom: 1px solid #333333;
-        }
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 72rem;
-            margin: 0 auto;
-        }
-        .brand {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-        .nav-menu {
-            display: flex;
-            align-items: center;
-        }
-        .nav-link {
-            color: #888888;
-            margin: 0 16px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .nav-link:hover {
-            color: white;
-        }
-        .login-area {
-            padding: 64px 16px;
-            min-height: 60vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .login-container {
-            background-color: #161616;
-            border-radius: 12px;
-            padding: 48px;
-            border: 1px solid #333333;
-            max-width: 400px;
-            width: 100%;
-        }
-        .login-container h1 {
-            font-size: 2rem;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        .login-container p {
-            color: #888888;
-            text-align: center;
-            margin-bottom: 32px;
-        }
-        .form-group {
-            margin-bottom: 24px;
-        }
-        .form-group label {
-            display: block;
-            color: white;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        .form-group input {
-            width: 100%;
-            background-color: #1a1a1a;
-            border: 1px solid #333333;
-            border-radius: 8px;
-            padding: 12px 16px;
-            color: white;
-            font-size: 16px;
-            box-sizing: border-box;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #6d28d9;
-        }
-        .login-btn {
-            width: 100%;
-            background-color: #6d28d9;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 16px;
-        }
-        .login-btn:hover {
-            background-color: #7c3aed;
-        }
-        .back-link {
-            text-align: center;
-        }
-        .back-link a {
-            color: #888888;
-            text-decoration: none;
-        }
-        .back-link a:hover {
-            color: white;
-        }
+        body { font-inter }
     </style>
 </head>
-<body>
+<body style="bg-[#0a0a0a] text-white m-0 p-0 font-inter">
     <!-- Top Navigation Bar -->
-    <div class="nav-bar">
-        <div class="nav-container">
+    <div style="bg-[#111111] p-4 border-b border-[#333333]">
+        <div style="flex justify-between items-center max-w-6xl mx-auto">
             <!-- Casino Brand -->
-            <div>
-                <a href="/" class="brand">67 Casino</a>
+            <div style="flex items-center">
+                <span style="text-xl font-bold mr-8 text-white">67 Casino</span>
             </div>
             
             <!-- Menu Navigation -->
-            <div class="nav-menu">
-                <a href="/" class="nav-link">Home</a>
-                <span class="nav-link">Gambling</span>
-                <span class="nav-link">Gurt</span>
+            <div style="flex items-center">
+                <a href="/" style="text-[#888888] cursor-pointer mx-4 hover:text-white">Home</a>
+                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white">Gambling</span>
+                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white">Gurt</span>
+            </div>
+            
+            <!-- Gurt Wallet (Far Right) -->
+            <div style="flex items-center ml-8">
+                <div style="bg-[#1a1a1a] rounded-xl px-4 py-2 border border-[#333333] flex items-center">
+                    <span style="text-white px-2 py-1 rounded text-sm font-bold cursor-pointer border border-[#6d28d9]">
+                        Login
+                    </span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Login Area -->
-    <div class="login-area">
-        <div class="login-container">
-            <h1>Welcome Back</h1>
-            <p>Login to your 67 Casino account</p>
-            
-            <form>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Enter your username">
+    <!-- Login Container -->
+    <div style="flex items-center justify-center min-h-[calc(100vh-80px)] p-4">
+        <div style="bg-[#161616] rounded-xl p-8 border border-[#333333] w-full max-w-xs mx-auto">
+            <!-- Title -->
+            <div style="text-center mb-6">
+                <h1 style="text-2xl font-bold mb-2">Login</h1>
+                <p style="text-[#888888] text-sm">Welcome back</p>
+            </div>
+
+            <!-- Form -->
+            <form style="flex flex-col gap-4">
+                <div>
+                    <input 
+                        type="email" 
+                        placeholder="Email" 
+                        required
+                        style="w-full bg-[#1a1a1a] border border-[#333333] rounded-lg px-3 py-3 text-white text-sm"
+                    />
                 </div>
                 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password">
+                <div>
+                    <input 
+                        type="password" 
+                        placeholder="Password" 
+                        required
+                        style="w-full bg-[#1a1a1a] border border-[#333333] rounded-lg px-3 py-3 text-white text-sm"
+                    />
                 </div>
                 
-                <button type="submit" class="login-btn">Login</button>
+                <button 
+                    type="submit" 
+                    style="w-full bg-[#7c3aed] hover:bg-[#8b5cf6] text-white font-bold py-3 rounded-lg mt-2"
+                >
+                    Sign In
+                </button>
             </form>
             
-            <div class="back-link">
-                <a href="/">← Back to Casino</a>
+            <!-- Back Link -->
+            <div style="text-center mt-6">
+                <a href="/" style="text-[#888888] hover:text-white text-xs">← Back to Casino</a>
             </div>
         </div>
     </div>
