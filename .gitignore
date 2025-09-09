@@ -1,2 +1,4 @@
 /target
 /gambling.db
+/cert.pem
+/key.pem
