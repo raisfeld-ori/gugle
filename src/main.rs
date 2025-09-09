@@ -20,19 +20,7 @@ async fn main() -> Result<()> {
         .get("/roulette", |_ctx| async { routes::roulette::get() })
         .get("/poker", |_ctx| async { routes::poker::get() })
         .get("/dice", |_ctx| async { routes::dice::get() })
-        .get("/coinflip", |_ctx| async { routes::coinflip::get() })
-        .get("/users", |_ctx| {
-            let user_data = _ctx.request.text().unwrap();
-            async move {
-                routes::users::get(user_data.clone())
-            }
-        })
-        .post("/users", |_ctx| {
-            let user_data = _ctx.request.text().unwrap();
-            async move {
-                routes::users::post(user_data.clone())
-            }
-        });
+        .get("/coinflip", |_ctx| async { routes::coinflip::get() });
 
     println!("GURT server starting on gurt://127.0.0.1:4878");
     server.listen("127.0.0.1:4878").await
