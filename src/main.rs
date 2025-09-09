@@ -16,6 +16,11 @@ async fn main() -> Result<()> {
         .get("/", |_ctx| async { routes::index::get() })
         .get("/slots", |_ctx| async { routes::slots::get() })
         .get("/login", |_ctx| async { routes::login::get() })
+        .get("/blackjack", |_ctx| async { routes::blackjack::get() })
+        .get("/roulette", |_ctx| async { routes::roulette::get() })
+        .get("/poker", |_ctx| async { routes::poker::get() })
+        .get("/dice", |_ctx| async { routes::dice::get() })
+        .get("/baccarat", |_ctx| async { routes::baccarat::get() })
         .get("/users", |_ctx| {
             let user_data = _ctx.request.text().unwrap();
             async move {
