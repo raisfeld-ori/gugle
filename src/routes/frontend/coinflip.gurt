@@ -138,29 +138,36 @@
     </script>
 </head>
 <body>
-    <!-- Top Navigation Bar -->
-    <nav style="bg-[#1a1a1a] p-3 flex justify-between items-center rounded-lg mx-4 mt-4 border border-[#333333]">
-        <!-- Casino Logo -->
-        <div style="flex items-center gap-3">
-            <div style="w-8 h-8 bg-[#7c3aed] rounded-lg flex items-center justify-center">
-                <span style="text-white text-lg font-bold">67</span>
+        <div style="bg-[#111111] p-4 border-b border-[#333333]">
+        <div style="flex justify-between items-center max-w-6xl mx-auto">
+            <!-- Casino Brand -->
+            <div style="flex items-center">
+                <span style="text-xl font-bold mr-8 text-white">67 Casino</span>
             </div>
-            <span style="text-white text-xl font-bold">67 Casino</span>
+            
+            <!-- Menu Navigation -->
+            <div style="flex items-center">
+                <a href="/" style="text-white cursor-pointer mx-4 hover:text-[#7c3aed] text-decoration-none">Home</a>
+                <a href="/coinflip" style="text-[#888888] cursor-pointer mx-4 hover:text-white text-decoration-none">CoinFlip</a>
+            </div>
+            
+            <!-- Gurt Wallet Balance (Far Right) -->
+            <div style="flex items-center ml-8">
+                <div style="bg-[#2a2a2a] rounded-lg px-4 py-2 border border-[#444444] flex items-center gap-3">
+                    <!-- Coin Icon -->
+                    <div style="w-6 h-6 rounded-full bg-[#ffd700] border-2 border-[#ffed4e] text-[#8b4513] text-xs font-bold text-center">
+                        G
+                    </div>
+                    <!-- Balance -->
+                    <span style="text-white font-bold" id="wallet-balance">test</span>
+                    <!-- Add Button -->
+                    <button style="w-6 h-6 bg-[#555555] text-white text-sm font-bold cursor-pointer hover:bg-[#666666] border-none">
+                        +
+                    </button>
+                </div>
+            </div>
         </div>
-        
-        <!-- Menu Navigation -->
-        <div style="flex items-center">
-            <a href="/" style="text-[#888888] cursor-pointer mx-4 hover:text-white text-decoration-none">Home</a>
-            <a href="/coinflip" style="text-white cursor-pointer mx-4 hover:text-[#7c3aed] text-decoration-none">CoinFlip</a>
-        </div>
-        
-        <!-- GURT Wallet Balance -->
-        <div style="flex items-center gap-3 bg-[#2a2a2a] px-4 py-2 rounded-lg border border-[#444444]">
-            <span style="color-[#ffd700] text-lg font-bold">G</span>
-            <span id="wallet-balance" style="color-white text-lg font-semibold"></span>
-            <button style="bg-[#7c3aed] text-white px-3 py-1 rounded-md text-sm hover:bg-[#6d28d9] cursor-pointer border-none">+</button>
-        </div>
-    </nav>
+    </div>
 
     <!-- Centered Game Container -->
     <div style="min-h-[calc(100vh-80px)] p-8">
