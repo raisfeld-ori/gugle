@@ -4,197 +4,391 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blackjack - 67 Casino</title>
-    <meta name="theme-color" content="#ec4899">
-    <meta name="description" content="67 Casino - Premium Blackjack Experience">
+    <meta name="theme-color" content="#7c3aed">
+    <meta name="description" content="Blackjack game at 67 Casino">
+    <font name="inter" src="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2" />
     <style>
         body { 
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a0a;
-            color: white;
-            margin: 0;
-            padding: 0;
-        }
-        .nav-bar {
-            background-color: #111111;
-            padding: 16px;
-            border-bottom: 1px solid #333333;
-        }
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 72rem;
-            margin: 0 auto;
-        }
-        .brand {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-        }
-        .nav-menu {
-            display: flex;
-            align-items: center;
-        }
-        .nav-link {
-            color: #888888;
-            margin: 0 16px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .nav-link:hover {
-            color: white;
-        }
-        .nav-link.active {
-            color: white;
-        }
-        .nav-link.active:hover {
-            color: #ec4899;
-        }
-        .wallet {
-            display: flex;
-            align-items: center;
-            margin-left: 32px;
-        }
-        .wallet-container {
-            background-color: #1a1a1a;
-            border-radius: 12px;
-            padding: 8px 16px;
-            border: 1px solid #333333;
-            display: flex;
-            align-items: center;
-        }
-        .login-btn {
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            font-weight: bold;
-            border: 1px solid #6d28d9;
-            text-decoration: none;
-        }
-        .hero {
-            background-color: #161616;
-            padding: 64px 16px;
-            text-align: center;
-        }
-        .hero-content {
-            max-width: 64rem;
-            margin: 0 auto;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 16px;
-        }
-        .hero p {
-            font-size: 1.125rem;
-            color: white;
-            opacity: 0.9;
-            max-width: 32rem;
-            margin: 0 auto;
-        }
-        .game-area {
-            padding: 32px;
-        }
-        .game-container {
-            max-width: 72rem;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .game-table {
-            background-color: #ec4899;
-            border-radius: 8px;
-            padding: 32px;
-            margin-bottom: 32px;
-        }
-        .game-table h2 {
-            font-size: 1.875rem;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 16px;
-        }
-        .game-table p {
-            color: white;
-            margin-bottom: 24px;
-        }
-        .game-interface {
-            background-color: #1a1a1a;
-            border-radius: 8px;
-            padding: 24px;
-            border: 1px solid #333333;
-        }
-        .game-interface p {
-            color: white;
-            font-size: 1.125rem;
-        }
-        .game-interface .subtitle {
-            color: #888888;
-            margin-top: 8px;
-        }
-        .back-btn {
-            background-color: #333333;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .back-btn:hover {
-            background-color: #444444;
+            font-inter 
+            bg-[#0a0a0a] 
+            text-white 
+            m-0 
+            p-0 
+            min-h-screen
         }
     </style>
+    <script>
+    local balance = tonumber(gurt.crumbs.get("balance"))
+    if balance == nil then
+        gurt.crumbs.set({
+            name = "balance",
+            value = 100
+        })
+        balance = 100
+    end
+    local element = gurt.select('#wallet-balance')
+    element.text = balance
+    </script>
+    <script>
+        -- Blackjack Game Logic
+        local playerCards = {}
+        local dealerCards = {}
+        local deck = {}
+        local gameState = "betting" -- betting, playing, dealer, finished
+        local playerScore = 0
+        local dealerScore = 0
+        local currentBet = 0
+        local gamesWon = 0
+        local gamesLost = 0
+        local totalGames = 0
+
+        -- Card values and suits
+        local suits = {"♠", "♥", "♦", "♣"}
+        local ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}
+        local values = {A = 11, ["2"] = 2, ["3"] = 3, ["4"] = 4, ["5"] = 5, ["6"] = 6, ["7"] = 7, ["8"] = 8, ["9"] = 9, ["10"] = 10, J = 10, Q = 10, K = 10}
+
+        -- Get DOM elements
+        local playerCardsEl = gurt.select('#player-cards')
+        local dealerCardsEl = gurt.select('#dealer-cards')
+        local playerScoreEl = gurt.select('#player-score')
+        local dealerScoreEl = gurt.select('#dealer-score')
+        local gameStatusEl = gurt.select('#game-status')
+        local betAmountEl = gurt.select('#bet-amount')
+        local dealButton = gurt.select('#deal-button')
+        local hitButton = gurt.select('#hit-button')
+        local standButton = gurt.select('#stand-button')
+        local newGameButton = gurt.select('#new-game-button')
+        local gamesWonEl = gurt.select('#games-won')
+        local gamesLostEl = gurt.select('#games-lost')
+        local totalGamesEl = gurt.select('#total-games')
+
+        -- Initialize deck
+        local function initializeDeck()
+            deck = {}
+            for _, suit in ipairs(suits) do
+                for _, rank in ipairs(ranks) do
+                    table.insert(deck, {rank = rank, suit = suit})
+                end
+            end
+            -- Shuffle deck
+            for i = #deck, 2, -1 do
+                local j = math.random(i)
+                deck[i], deck[j] = deck[j], deck[i]
+            end
+        end
+
+        -- Calculate hand value
+        local function calculateHandValue(cards)
+            local value = 0
+            local aces = 0
+            
+            for _, card in ipairs(cards) do
+                if card.rank == "A" then
+                    aces = aces + 1
+                    value = value + 11
+                else
+                    value = value + values[card.rank]
+                end
+            end
+            
+            -- Handle aces
+            while value > 21 and aces > 0 do
+                value = value - 10
+                aces = aces - 1
+            end
+            
+            return value
+        end
+
+        -- Display cards
+        local function displayCards(cards, element, hideFirst)
+            local html = ""
+            for i, card in ipairs(cards) do
+                if hideFirst and i == 1 then
+                    html = html .. '<div style="w-16 h-24 bg-[#1a1a1a] border border-[#444444] rounded-lg flex items-center justify-center text-xs font-bold mr-2 mb-2 float-left">?</div>'
+                else
+                    local color = (card.suit == "♥" or card.suit == "♦") and "#ef4444" or "#ffffff"
+                    html = html .. '<div style="w-16 h-24 bg-[#f8f8f8] border border-[#444444] rounded-lg flex items-center justify-center text-xs font-bold mr-2 mb-2 float-left text-[' .. color .. '] bg-white">' .. card.rank .. card.suit .. '</div>'
+                end
+            end
+            element.text = html
+        end
+
+        -- Update scores
+        local function updateScores()
+            playerScore = calculateHandValue(playerCards)
+            dealerScore = calculateHandValue(dealerCards)
+            playerScoreEl.text = tostring(playerScore)
+            if gameState == "playing" or gameState == "betting" then
+                dealerScoreEl.text = "?"
+            else
+                dealerScoreEl.text = tostring(dealerScore)
+            end
+        end
+
+        -- Update game status
+        local function updateGameStatus(message)
+            gameStatusEl.text = message
+        end
+
+        -- Update stats
+        local function updateStats()
+            gamesWonEl.text = tostring(gamesWon)
+            gamesLostEl.text = tostring(gamesLost)
+            totalGamesEl.text = tostring(totalGames)
+        end
+
+        -- Deal initial cards
+        local function dealCards()
+            currentBet = 50
+            
+            local balance = tonumber(gurt.crumbs.get("balance"))
+            if currentBet > balance then
+                updateGameStatus("Insufficient balance!")
+                return
+            end
+            
+            initializeDeck()
+            playerCards = {}
+            dealerCards = {}
+            
+            -- Deal 2 cards to each
+            table.insert(playerCards, table.remove(deck))
+            table.insert(dealerCards, table.remove(deck))
+            table.insert(playerCards, table.remove(deck))
+            table.insert(dealerCards, table.remove(deck))
+            
+            gameState = "playing"
+            betAmountEl.text = "Bet: " .. currentBet
+            
+            displayCards(playerCards, playerCardsEl, false)
+            displayCards(dealerCards, dealerCardsEl, true)
+            updateScores()
+            
+            -- Check for blackjack
+            if playerScore == 21 then
+                stand()
+            else
+                updateGameStatus("Your turn! Hit or Stand?")
+            end
+            
+            -- Show/hide buttons
+            dealButton.style = "display: none"
+            hitButton.style = "bg-[#10b981] text-white px-6 py-3 rounded-lg font-bold cursor-pointer hover:bg-[#059669] border-none mr-4"
+            standButton.style = "bg-[#ef4444] text-white px-6 py-3 rounded-lg font-bold cursor-pointer hover:bg-[#dc2626] border-none mr-4"
+        end
+
+        -- End game function
+        local function endGame(playerWon)
+            local balance = tonumber(gurt.crumbs.get("balance"))
+            
+            if playerWon == true then
+                -- Player wins
+                balance = balance + currentBet
+                gamesWon = gamesWon + 1
+            elseif playerWon == false then
+                -- Player loses
+                balance = balance - currentBet
+                gamesLost = gamesLost + 1
+            end
+            -- If tie (nil), no money change
+            
+            totalGames = totalGames + 1
+            
+            gurt.crumbs.set({
+                name = "balance",
+                value = balance
+            })
+            local element = gurt.select('#wallet-balance')
+            element.text = balance
+            
+            updateStats()
+            
+            -- Show new game button
+            hitButton.style = "display: none"
+            standButton.style = "display: none"
+            newGameButton.style = "bg-[#7c3aed] text-white px-6 py-3 rounded-lg font-bold cursor-pointer hover:bg-[#8b5cf6] border-none"
+        end
+
+        -- Hit function
+        local function hit()
+            if gameState ~= "playing" then return end
+            
+            table.insert(playerCards, table.remove(deck))
+            displayCards(playerCards, playerCardsEl, false)
+            updateScores()
+            
+            if playerScore > 21 then
+                gameState = "finished"
+                updateGameStatus("Bust! You lose!")
+                endGame(false)
+            elseif playerScore == 21 then
+                stand()
+            end
+        end
+
+        -- Stand function
+        local function stand()
+            if gameState ~= "playing" then return end
+            
+            gameState = "dealer"
+            displayCards(dealerCards, dealerCardsEl, false)
+            updateScores()
+            
+            -- Dealer plays
+            while dealerScore < 17 do
+                table.insert(dealerCards, table.remove(deck))
+                dealerScore = calculateHandValue(dealerCards)
+                displayCards(dealerCards, dealerCardsEl, false)
+                updateScores()
+            end
+            
+            gameState = "finished"
+            
+            -- Determine winner
+            if dealerScore > 21 then
+                updateGameStatus("Dealer busts! You win!")
+                endGame(true)
+            elseif dealerScore > playerScore then
+                updateGameStatus("Dealer wins!")
+                endGame(false)
+            elseif playerScore > dealerScore then
+                updateGameStatus("You win!")
+                endGame(true)
+            else
+                updateGameStatus("Push! It's a tie!")
+                endGame(nil) -- tie
+            end
+        end
+        -- New game function
+        local function newGame()
+            gameState = "betting"
+            playerCards = {}
+            dealerCards = {}
+            playerScore = 0
+            dealerScore = 0
+            currentBet = 0
+            
+            playerCardsEl.text = ""
+            dealerCardsEl.text = ""
+            playerScoreEl.text = "0"
+            dealerScoreEl.text = "0"
+            betAmountEl.text = "Bet: 50 chips per game"
+            updateGameStatus("Click Deal to start! (50 chips per game)")
+            
+            -- Show/hide buttons
+            dealButton.style = "bg-[#7c3aed] text-white px-6 py-3 rounded-lg font-bold cursor-pointer hover:bg-[#8b5cf6] border-none"
+            hitButton.style = "display: none"
+            standButton.style = "display: none"
+            newGameButton.style = "display: none"
+        end
+
+        -- Event listeners
+        dealButton:on('click', dealCards)
+        hitButton:on('click', hit)
+        standButton:on('click', stand)
+        newGameButton:on('click', newGame)
+
+        -- Initialize random seed and game
+        math.randomseed(Time.now())
+        newGame()
+        updateStats()
+
+        trace.log("Blackjack game initialized!")
+    </script>
 </head>
 <body>
-    <!-- Top Navigation Bar -->
-    <div class="nav-bar">
-        <div class="nav-container">
+    <div style="bg-[#111111] p-4 border-b border-[#333333]">
+        <div style="flex justify-between items-center max-w-6xl mx-auto">
             <!-- Casino Brand -->
-            <div>
-                <a href="/" class="brand">67 Casino</a>
+            <div style="flex items-center">
+                <span style="text-xl font-bold mr-8 text-white">67 Casino</span>
             </div>
             
             <!-- Menu Navigation -->
-            <div class="nav-menu">
-                <a href="/" class="nav-link">Home</a>
-                <span class="nav-link active">Gambling</span>
-                <span class="nav-link">Gurt</span>
+            <div style="flex items-center">
+                <a href="/" style="text-white cursor-pointer mx-4 hover:text-[#7c3aed] text-decoration-none">Home</a>
+                <a href="/blackjack" style="text-[#888888] cursor-pointer mx-4 hover:text-white text-decoration-none">Blackjack</a>
             </div>
             
-            <!-- Gurt Wallet (Far Right) -->
-            <div class="wallet">
-                <div class="wallet-container">
-                    <a href="/login" class="login-btn">Login</a>
+            <!-- Gurt Wallet Balance (Far Right) -->
+            <div style="flex items-center ml-8">
+                <div style="bg-[#2a2a2a] rounded-lg px-4 py-2 border border-[#444444] flex items-center gap-3">
+                    <!-- Coin Icon -->
+                    <div style="w-6 h-6 rounded-full bg-[#ffd700] border-2 border-[#ffed4e] text-[#8b4513] text-xs font-bold text-center">
+                        G
+                    </div>
+                    <!-- Balance -->
+                    <span style="text-white font-bold" id="wallet-balance">test</span>
+                    <!-- Add Button -->
+                    <button style="w-6 h-6 bg-[#555555] text-white text-sm font-bold cursor-pointer hover:bg-[#666666] border-none">
+                        +
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Game Hero Area -->
-    <div class="hero">
-        <div class="hero-content">
-            <h1>Blackjack</h1>
-            <p>Beat the dealer with 21! Classic card game with premium GURT experience.</p>
-        </div>
-    </div>
-
-    <!-- Game Area -->
-    <div class="game-area">
-        <div class="game-container">
-            <div class="game-table">
-                <h2>Blackjack Table</h2>
-                <p>Get as close to 21 as possible without going over!</p>
+    <!-- Main Game Container -->
+    <div style="min-h-[calc(100vh-80px)] p-8">
+        <div style="w-full max-w-6xl mx-auto text-center">
+            <!-- Game Title -->
+            <h1 style="text-5xl font-bold text-white mb-4 mx-auto">Blackjack</h1>
+            <p style="text-xl text-[#888888] mb-12 mx-auto">Get as close to 21 as possible without going over!</p>
+            
+            <!-- Game Status -->
+            <div id="game-status" style="text-2xl font-bold text-[#7c3aed] mb-8 min-h-[2rem] mx-auto text-center">Click Deal to start! (50 chips per game)</div>
+            
+            <!-- Betting Area -->
+            <div style="mb-8">
+                <div id="bet-amount" style="text-lg text-white mb-4">Bet: 50 chips per game</div>
+                <button id="deal-button" style="bg-[#7c3aed] text-white px-6 py-3 rounded-lg font-bold cursor-pointer hover:bg-[#8b5cf6] border-none">Deal</button>
+            </div>
+            
+            <!-- Game Area -->
+            <div style="flex justify-center gap-16 mb-12">
+                <!-- Dealer Section -->
+                <div style="text-center">
+                    <h3 style="text-2xl font-bold text-white mb-4">Dealer</h3>
+                    <div style="text-lg text-[#888888] mb-4">Score: <span id="dealer-score">0</span></div>
+                    <div id="dealer-cards" style="min-h-[120px] overflow-hidden"></div>
+                </div>
                 
-                <!-- Game Interface Placeholder -->
-                <div class="game-interface">
-                    <p>🃏 Game interface coming soon...</p>
-                    <p class="subtitle">Place your bets and play against the house!</p>
+                <!-- Player Section -->
+                <div style="text-center">
+                    <h3 style="text-2xl font-bold text-white mb-4">You</h3>
+                    <div style="text-lg text-[#888888] mb-4">Score: <span id="player-score">0</span></div>
+                    <div id="player-cards" style="min-h-[120px] overflow-hidden"></div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div style="mb-12">
+                <button id="hit-button" style="display: none">Hit</button>
+                <button id="stand-button" style="display: none">Stand</button>
+                <button id="new-game-button" style="display: none">New Game</button>
+            </div>
+            
+            <!-- Stats Grid -->
+            <div style="max-w-3xl mx-auto mb-12 text-center overflow-hidden">
+                <div style="bg-[#1a1a1a] border border-[#333333] rounded-xl p-6 text-center m-2 w-[170px] float-left">
+                    <div style="text-3xl font-bold text-[#10b981] mb-2" id="games-won">0</div>
+                    <div style="text-[#888888] text-lg">Won</div>
+                </div>
+                <div style="bg-[#1a1a1a] border border-[#333333] rounded-xl p-6 text-center m-2 w-[170px] float-left">
+                    <div style="text-3xl font-bold text-[#ef4444] mb-2" id="games-lost">0</div>
+                    <div style="text-[#888888] text-lg">Lost</div>
+                </div>
+                <div style="bg-[#1a1a1a] border border-[#333333] rounded-xl p-6 text-center m-2 w-[170px] float-left">
+                    <div style="text-3xl font-bold text-white mb-2" id="total-games">0</div>
+                    <div style="text-[#888888] text-lg">Total Games</div>
                 </div>
             </div>
             
             <!-- Back to Games -->
-            <a href="/" class="back-btn">← Back to Games</a>
+            <div style="text-center mx-auto">
+                <a href="/" style="text-[#7c3aed] hover:text-[#8b5cf6] cursor-pointer text-xl text-decoration-none">← Back to Games</a>
+            </div>
         </div>
     </div>
 </body>
