@@ -30,6 +30,24 @@
     element.text = balance
     </script>
     <script>
+    -- Navigation event handlers
+    local navHome = gurt.select('#nav-home')
+    local navSlots = gurt.select('#nav-slots')
+    local navBlackjack = gurt.select('#nav-blackjack')
+    local navRoulette = gurt.select('#nav-roulette')
+    local navPoker = gurt.select('#nav-poker')
+    local navDice = gurt.select('#nav-dice')
+    local navCoinflip = gurt.select('#nav-coinflip')
+    
+    navHome:on('click', function() gurt.location.goto('/') end)
+    navSlots:on('click', function() gurt.location.goto('/slots') end)
+    navBlackjack:on('click', function() gurt.location.goto('/blackjack') end)
+    navRoulette:on('click', function() gurt.location.goto('/roulette') end)
+    navPoker:on('click', function() gurt.location.goto('/poker') end)
+    navDice:on('click', function() gurt.location.goto('/dice') end)
+    navCoinflip:on('click', function() gurt.location.goto('/coinflip') end)
+    </script>
+    <script>
         -- Slots Game Logic
         local isSpinning = false
         local reels = {}
@@ -236,9 +254,13 @@
             
             <!-- Menu Navigation -->
             <div style="flex items-center">
-                <a href="/" style="text-white cursor-pointer mx-4 hover:text-[#7c3aed] text-decoration-none">Home</a>
-                <a href="/slots" style="text-[#888888] cursor-pointer mx-4 hover:text-white text-decoration-none">Slots</a>
-                <a href="/coinflip" style="text-[#888888] cursor-pointer mx-4 hover:text-white text-decoration-none">CoinFlip</a>
+                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white no-underline" id="nav-home">Home</span>
+                <span style="text-white cursor-pointer mx-4 hover:text-[#7c3aed] no-underline" id="nav-slots">Slots</span>
+                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white no-underline" id="nav-blackjack">Blackjack</span>
+                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white no-underline" id="nav-roulette">Roulette</span>
+                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white no-underline" id="nav-poker">Poker</span>
+                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white no-underline" id="nav-dice">Dice</span>
+                <span style="text-[#888888] cursor-pointer mx-4 hover:text-white no-underline" id="nav-coinflip">CoinFlip</span>
             </div>
             
             <!-- Gurt Wallet Balance (Far Right) -->
