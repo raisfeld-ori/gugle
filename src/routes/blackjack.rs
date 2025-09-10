@@ -1,4 +1,4 @@
-use gurt::{GurtResponse, Result};
+use gurtlib::{GurtResponse, Result};
 use std::fs;
 use std::path::Path;
 

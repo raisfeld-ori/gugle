@@ -1,4 +1,4 @@
-use gurt::prelude::*;
+use gurtlib::prelude::*;
 mod routes;
 use sqlite::Connection;
 #[tokio::main]

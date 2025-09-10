@@ -296,7 +296,7 @@ checksum = "0cc23270f6e1808e30a928bdc84dea0b9b4136a8bc82338574f23baf47bbd280"
 name = "gugle"
 version = "0.1.0"
 dependencies = [
- "gurt",
+ "gurtlib",
  "serde",
  "serde_json",
  "sqlite",
@@ -306,10 +306,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "gurt"
+name = "gurtlib"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "653cb7580419238468f20e17d86accf4595af51d1459dfe308a62521d8500fc6"
+checksum = "2668f77b7908f5456010551143b5db26ffead6291652f6946ddb96dfa9dd5d2a"
 dependencies = [
  "base64",
  "chrono",
